@@ -183,6 +183,29 @@
     </li>
   </ul>
 <script>
+
+  // we need to transform the node list into an array to apply methods
+  const timeNodes = Array.from(document.querySelectorAll('[data-time]'));
+
+  // .map : from an array of list items to an array of strings
+  const seconds = timeNodes
+    .map(node => node.dataset.time)
+    .map(timeCode => { // convert it into just seconds
+      const [mins, secs] = timeCode.split(':').map(parseFloat);
+      return (mins * 60) + secs;
+      console.log(mins, secs);
+    })
+    .reduce((total, vidSeconds) => total + vidSeconds);
+
+    let secondsLeft = seconds;
+    const hours = Math.floor(secondsLeft / 3600); // Math.floor gives an envely result (no coma)
+    secondsLeft = secondsLeft % 3600; // % gives how many seconds are left after counting the total (what was left after the coma)
+
+    const mins = Math.floor(secondsLeft / 60);
+    secondsLeft = secondsLeft % 60;
+
+    console.log(hours, mins, secondsLeft);
+
 </script>
 </body>
 </html>
