@@ -36,6 +36,40 @@
   </div>
 
 <script>
+  const slider = document.querySelector('.items');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    // to know where the click is inside the element, not the entire page:
+    startX = e.pageX - slider.offsetLeft;
+    // to know where the mouse is when scrolling while cliked:
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return; // stop the function from running
+    e.preventDefault(); // to prevent any selecting of text or anything inside
+    // to know where the mouse is when moved:
+    const x = e.pageX - slider.offsetLeft;
+    // to know how much we've deviated from the initial:
+    const walk = (x - startX) * 3;
+    slider.scrollLeft = scrollLeft - walk;
+  });
+
 </script>
 
   </body>
